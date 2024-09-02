@@ -1,0 +1,13 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model COUNTER_TABLE {
+  id    Int @id(map: "PK_COUNTER_TABLE")
+  count Int
+}

@@ -1,7 +1,14 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { PrismaClient } from "@prisma/client";
 
-export default function Home() {
+const db = new PrismaClient();
+
+export default async function Home() {
+  const counter = await db.cOUNTER_TABLE.findFirst();
+
+  console.log(counter);
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -15,28 +22,27 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
+            By <Image src="/vercel.svg" alt="Vercel Logo" className={styles.vercelLogo} width={100} height={24} priority />
           </a>
         </div>
       </div>
 
       <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+        <button
+          className={styles.button}
+          // onClick={async () => {
+          //   await db.cOUNTER_TABLE.update({
+          //     data: {
+          //       count: count + 1,
+          //     },
+          //   });
+          // }}
+        >
+          Click me
+        </button>
+      </div>
+      <div>
+        <p className={styles.text}>{counter ? `Counter: ${counter.count}` : "Counter not found"}</p>
       </div>
 
       <div className={styles.grid}>
@@ -85,9 +91,7 @@ export default function Home() {
           <h2>
             Deploy <span>-&gt;</span>
           </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
+          <p>Instantly deploy your Next.js site to a shareable URL with Vercel.</p>
         </a>
       </div>
     </main>
